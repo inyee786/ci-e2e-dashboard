@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: "mongo-cstor", component: WorkloadsComponent },
   { path: "percona-cstor", component: WorkloadsComponent },
   { path: "prometheus-cstor", component: WorkloadsComponent },
+  { path: "prometheus-jiva", component: WorkloadsComponent },
   { path: "wordpress-nfs", component: WorkloadsComponent },
   { path: "overview", component: OverviewComponent }
 ];

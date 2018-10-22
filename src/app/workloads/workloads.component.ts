@@ -21,6 +21,7 @@ import {
   completes
 } from "../model/data.model";
 import { ISubscription } from "rxjs/Subscription";
+import { Meta,Title } from "@angular/platform-browser";
 @Component({
   selector: "app-workloads",
   templateUrl: "./workloads.component.html",
@@ -114,7 +115,9 @@ export class WorkloadsComponent implements OnInit, OnDestroy {
     private personService: PersonService,
     private kubernetsServices: KubernetsService,
     private litmusServies: LitmusService
+    ,private titleService: Title
   ) {
+    
     this.windowWidth = window.innerWidth;
     this.currentRoute = this.router.url.split("/");
     this.openebsEngine = this.router.url.split("-")[1];
@@ -139,6 +142,7 @@ export class WorkloadsComponent implements OnInit, OnDestroy {
       this.workloadyaml = res.workloadyaml;
       this.applicationType = res.applicationType;
       this.dashboardurl = res.dashboardurl;
+      this.titleService.setTitle( this.workloadName + " dashboard | OpenEBS.ci" );
       console.log(this.dashboardurl);
     });
 

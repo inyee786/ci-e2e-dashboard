@@ -59,6 +59,9 @@ p {
     color: #949BB3;
     text-align: center;
 }
+.build-status{
+    font-size: 15px;
+}
 tr {
     font-size: 0.8em;
     color: #54576B;
@@ -191,11 +194,51 @@ img {
     .statusbutton {
         font-size: 13px !important; 
     }
+}
     @media only screen and (max-width: 1400px) {
         .statusbutton {
             font-size: 11px !important; 
             padding-left:14px;
             padding-right:14px;
         }
+    }
+.detail button span{
+    font-size: 15px;
+}
+.star-{
+    padding-left: 40px;
+}
+.litmus-baseline .base{
+    margin-left: 30px
+}
+@media screen and (max-width:1300px){
+    h4{
+        font-size: 2rem;
+    }
+    h3{
+        font-size: 10px;
+    }
+    th, tr{
+        font-size: 10px;
+    }
+    .btn{
+        font-size: 10px;
+    }
+    .build-status{
+        font-size: 10px;
+    }
+    .detail button span{
+        font-size: 10px;
+    }
+    .star-{
+        padding-left: 0;
+    }
+    p, h6{
+        font-size: 10px;
+    }
+    .litmus-baseline .base, a{
+        margin-left: 0px;
+        font-size: 10px;
+
     }
 }
