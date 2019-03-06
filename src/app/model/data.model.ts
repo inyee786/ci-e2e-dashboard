@@ -38,6 +38,7 @@ export interface yaml {
   openebsEngine: string;
   applicationType: string;
   dashboardurl: string;
+  urlApi: string;
 }
 export interface statefulSet {
   kind: string;
