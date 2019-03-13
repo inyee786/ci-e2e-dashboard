@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
+import {Observable} from "rxjs/Observable";
+import { forkJoin } from "rxjs/observable/forkJoin";
+import 'rxjs/add/operator/map'
+
 import { overAllStatus, listNamespace, status,allApplication } from "../model/data.model";
 
 @Injectable()
@@ -8,22 +12,19 @@ export class KubernetsService {
 
     private apiurl: string;
     private host: string;
-    private gitLabApiUrl: string = '';
+    private clusterDomain:any;
+    private workloadapi = `http://localhost:4000/`
+    private requestservice :any;
     constructor(private http: HttpClient) {
-        this.host = window.location.host;
-        if ((this.host.toString().indexOf("localhost") + 1) && this.host.toString().indexOf(":")) {
-            this.apiurl = "http://localhost:3000/";
-        }else if(this.host.toString().indexOf("workload-dashboard") == 0){
-            this.apiurl = this.host + `/workloads/`;
-            this.gitLabApiUrl = '';
-        }else{
-            this.apiurl = `https://workloads.openebs.ci/`;
-            this.gitLabApiUrl = 'https://workload-gitlab.openebs.ci/';
-        }
+
+        this.http.get("http://localhost:4000/workloads/").subscribe(res => {
+            this.clusterDomain =res;
+        }); 
     }
     
     setApiUrl(apiUrl: string){
         this.apiurl = apiUrl;
+        console.log(this.apiurl);
     }
     getApiUrl(){
         return this.apiurl;
@@ -62,9 +63,11 @@ export class KubernetsService {
     }
 
     getAllApplication(){
-        return this.http.get<allApplication>(this.apiurl + "pod/statuses")
+        this.requestservice  = []
+        this.clusterDomain.forEach(element => {
+            this.requestservice.push(this.http.get<allApplication[]>(element+ "pod/statuses").map(res => res));      
+        });
+        return forkJoin(this.requestservice);
     }
-    getGitLabApplication(){
-        return this.http.get<allApplication>(this.gitLabApiUrl + "pod/statuses")
-    }
+
 }

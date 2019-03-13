@@ -10,16 +10,16 @@ import { contactDetails } from "../model/data.model";
 export class AgileService {
   private contactAdd: contactDetails[] = [];
   private contactUpdated = new Observable<contactDetails[]>();
-  private apiurl: string;
+  private agileApiUrl: string;
   host: string;
   constructor(private http: HttpClient) {
     this.host = window.location.host;
     if (this.host == "localhost:4200") {
-      this.apiurl = "http://localhost:3000/";
+      this.agileApiUrl = "http://localhost:3000/";
     } else if (this.host == "staging.openebs.io") {
-      this.apiurl = "https://staging.mayadata.io/api/";
+      this.agileApiUrl = "https://staging.mayadata.io/api/";
     } else {
-      this.apiurl = "https://openebs.io/api/";
+      this.agileApiUrl = "https://openebs.io/api/";
     }
   }
 
@@ -39,7 +39,7 @@ export class AgileService {
       tag: addtag
     };
     this.http
-      .post<{ message: string }>(this.apiurl + "openebs/formsubmit", contactAdd)
+      .post<{ message: string }>(this.agileApiUrl + "openebs/formsubmit", contactAdd)
       .subscribe(responseData => {
         this.contactAdd.push(contactAdd);
       });

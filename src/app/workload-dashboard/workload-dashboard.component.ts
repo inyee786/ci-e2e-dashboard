@@ -6,6 +6,7 @@ import { Meta,Title } from "@angular/platform-browser";
 import {
   allApplication
 } from "../model/data.model";
+import { map } from 'rxjs/operators';
 @Component({
   selector: "app-workload-dashboard",
   templateUrl: "./workload-dashboard.component.html",
@@ -18,7 +19,7 @@ export class WorkloadDashboardComponent implements OnInit {
   public openebsVersion : any ;
   public allApplications: allApplication;
   public gitlabApplication : allApplication;
-
+  public responseapp : any = []
   constructor(private kubernetsServices: KubernetsService, private meta: Meta,private titleService: Title) {
     this.titleService.setTitle( "workloads dashboard" );
     this.meta.updateTag({
@@ -29,21 +30,19 @@ export class WorkloadDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
+    
     timer(0, 500000).subscribe(x => {
       this.kubernetsServices.getOpenebsVersion().subscribe( res => {
         this.openebsVersion = res ;
       });
-  
-      this.kubernetsServices.getAllApplication().subscribe(res =>{
-        this.allApplications=res;
-      })
-      this.kubernetsServices.getGitLabApplication().subscribe(res =>{
-        this.gitlabApplication=res;
-      })
-    });
 
+      this.kubernetsServices.getAllApplication().subscribe( res => {
+        for (let index = 0; index < res.length; index++) {
+            this.responseapp = this.responseapp.concat(res[index])   
+        }   
+        this.allApplications = this.responseapp;  
+      });
+    });
 
     $(document).ready(function(){
       $("#myInput").on("keyup", function() {
@@ -57,6 +56,7 @@ export class WorkloadDashboardComponent implements OnInit {
 
   setApiUrl(apiurl: string){
     localStorage.setItem('apiurlkey' , apiurl);
+    console.log("hgvjhgvjhgvjhgjhgh")
     this.kubernetsServices.setApiUrl(localStorage.getItem('apiurlkey'));
   }
 }
